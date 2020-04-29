@@ -1,21 +1,27 @@
-<div class="container-fluid-padding">
-  <div class="input-group m-3">
-    <button type="button" [disabled]="showAlert" class="btn btn-primary" (click)="startJob()">Start Job</button>
-  </div>
-  <div class="input-group m-3">
-    <div *ngIf="showAlert" class="alert alert-success" role="alert">
-      <h4 class="alert-heading">Job Started!</h4>
-      <p>Please refresh the page to see the updated status.</p>
+<main class="container-fluid-padding">
+  <section class="pb-3">
+    <div class="input-group mb-3">
+      <button type="button" [disabled]="showAlert" class="btn btn-primary" (click)="startJob()">Start Job</button>
     </div>
-  </div>
+    <div class="input-group mb-3">
+      <div *ngIf="showAlert" class="alert alert-success" role="alert">
+        <h4 class="alert-heading">Job Started!</h4>
+        <p>Please refresh the page to see the updated status.</p>
+      </div>
+    </div>
 
-  <div *ngIf="!loading && tableData.totalListItems === 0">
-    No Records found.
-  </div>
+    <div *ngIf="!loading && tableData.totalListItems === 0">
+      No Records found.
+    </div>
 
-  <lib-table-template
-    *ngIf="!loading && tableData.totalListItems != 0"
-    [data]="tableData"
-    (messageOut)="onMessageOut($event)"
-  ></lib-table-template>
-</div>
+    <lib-table-template
+      *ngIf="!loading && tableData.totalListItems != 0"
+      [data]="tableData"
+      (messageOut)="onMessageOut($event)"
+    ></lib-table-template>
+  </section>
+
+  <section class="pb-3">
+    <app-import-csv></app-import-csv>
+  </section>
+</main>

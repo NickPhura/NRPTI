@@ -1,0 +1,47 @@
+<div>
+  <div class="label-pair">
+    <label for="csvImportRecordType">CSV Record Type</label>
+    <select id="csvImportRecordType" class="form-control" (change)="onRecordTypeChange($event.target.value)">
+      <option>Administrative Sanctions</option>
+      <option>Court Convictions</option>
+      <option>Tickets</option>
+    </select>
+  </div>
+
+  <div>
+    <div>
+      <label>Upload CSV Document</label>
+      <app-file-upload
+        [maxFiles]="1"
+        [maxSize]="20"
+        [fileExt]="['csv']"
+        [showInfo]="false"
+        [showList]="false"
+        [files]="csvFiles"
+        (filesChange)="onFileChange($event)"
+      ></app-file-upload>
+
+      <div *ngIf="csvFiles[0]">
+        <div>
+          <span class="cell name" [title]="csvFiles[0].name || ''">
+            <span class="cell__txt-content">{{ csvFiles[0].name }}</span>
+          </span>
+          <span class="cell actions">
+            <button class="btn btn-icon" type="button" title="Delete this document" (click)="onFileDelete(csvFiles[0])">
+              <i class="material-icons">delete</i>
+            </button>
+          </span>
+        </div>
+      </div>
+
+      <div>
+        <button class="btn btn-primary d-block" type="button" (click)="checkFileForErrors()">Validate CSV</button>
+        <textarea class="d-block">test</textarea>
+      </div>
+
+      <div>
+        <button class="btn btn-primary" type="button" (click)="saveRecords()">Import Records</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -25,6 +25,7 @@ import { FooterComponent } from './footer/footer.component';
 import { NotAuthorizedComponent } from './not-authorized/not-authorized.component';
 import { HomeComponent } from './home/home.component';
 import { ImportComponent } from './import/import.component';
+import { ImportCSVComponent } from './import/import-csv/import-csv.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { ImportTableRowsComponent } from './import/import-rows/import-table-rows.component';
 import { ToggleButtonComponent } from './toggle-button/toggle-button.component';
@@ -61,6 +62,7 @@ export function overlayScrollFactory(overlay: Overlay): () => CloseScrollStrateg
     AppComponent,
     HomeComponent,
     ImportComponent,
+    ImportCSVComponent,
     ToggleButtonComponent,
     ConfirmComponent,
     HeaderComponent,
