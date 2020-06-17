@@ -54,7 +54,7 @@ export class ImportCSVComponent {
     this.csvFileValidated = false;
     this.csvFileErrors = [];
 
-    this.validateCsvFile();
+    this.readCsvFile();
   }
 
   /**
@@ -80,12 +80,12 @@ export class ImportCSVComponent {
   }
 
   /**
-   * Validate the csv file for errors before attempting to import.
+   * Read the csv file data.
    *
    * @returns
    * @memberof ImportCSVComponent
    */
-  validateCsvFile() {
+  readCsvFile() {
     if (!this.dataSourceType || !this.recordType || !this.csvFiles[0]) {
       return;
     }
@@ -93,29 +93,38 @@ export class ImportCSVComponent {
     const fileReader = new FileReader();
 
     fileReader.onloadend = () => {
-      const csvData = fileReader.result;
-
-      if (!csvData) {
-        this.csvFileErrors.push(`Error reading csv file: ${this.csvFiles[0].name}`);
-        return;
-      }
-
-      // parse csv into a 2D array of rows and row values
-      const csvRows: string[][] = Papa.parse<string[]>(csvData as string, { skipEmptyLines: true }).data;
-
-      this.validateRequiredHeaders(csvRows[0]);
-
-      this.validateFields(csvRows);
-
-      if (this.csvFileErrors && this.csvFileErrors.length) {
-        // csv errors found
-        return;
-      }
-
-      this.csvFileValidated = true;
+      this.validateCsvFile(fileReader.result);
     };
 
     fileReader.readAsText(this.csvFiles[0]);
+  }
+
+  /**
+   * Parse and validate the csv data for errors.
+   *
+   * @param {*} csvData
+   * @returns
+   * @memberof ImportCSVComponent
+   */
+  validateCsvFile(csvData: any) {
+    if (!csvData) {
+      this.csvFileErrors.push(`Error reading csv file: ${this.csvFiles[0].name}`);
+      return;
+    }
+
+    // parse csv into a 2D array of rows and row values
+    const csvRows: string[][] = Papa.parse<string[]>(csvData as string, { skipEmptyLines: true }).data;
+
+    this.validateRequiredHeaders(csvRows[0]);
+
+    this.validateFields(csvRows);
+
+    if (this.csvFileErrors && this.csvFileErrors.length) {
+      // csv errors found
+      return;
+    }
+
+    this.csvFileValidated = true;
   }
 
   /**
@@ -127,11 +136,6 @@ export class ImportCSVComponent {
    */
   validateRequiredHeaders(csvHeaderRowValuesArray: string[]) {
     if (!csvHeaderRowValuesArray || !csvHeaderRowValuesArray.length) {
-      this.csvFileErrors.push(`Error parsing csv file: ${this.csvFiles[0].name}`);
-      return;
-    }
-
-    if (!csvHeaderRowValuesArray) {
       this.csvFileErrors.push(`Error parsing csv file: ${this.csvFiles[0].name}`);
       return;
     }
